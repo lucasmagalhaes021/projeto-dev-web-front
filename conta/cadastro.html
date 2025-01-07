@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carteira Digital - Exemplo</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="login-header"></div>
+    <!-- Seção de Cadastro -->
+    <section id="cadastroSection" class="py-5">
+      <div class="container">
+        <h2 class="mb-4">Cadastro</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <form>
+              <div class="mb-3">
+                <label for="cadastroNome" class="form-label"
+                  >Nome completo</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cadastroNome"
+                  placeholder="Seu nome completo"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="cadastroEmail" class="form-label">E-mail</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="cadastroEmail"
+                  placeholder="seuemail@exemplo.com"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="cadastroSenha" class="form-label">Senha</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="cadastroSenha"
+                  placeholder="Crie uma senha"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="cadastroSenhaConfirm" class="form-label"
+                  >Confirmar senha</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="cadastroSenhaConfirm"
+                  placeholder="Repita a senha"
+                />
+              </div>
+              <button type="submit" class="btn btn-success">Cadastrar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scripts Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/headers.js"></script>
+  </body>
+</html>
