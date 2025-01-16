@@ -26,17 +26,23 @@ function showErrorToast() {
 
 // Função para verificar o login
 function checkUserLoggedIn() {
-    if (!isUserLoggedIn()) {
-        document.getElementById('homeSection').style.display = 'none';
-        showErrorToast();
-    } else {
-        const user = getUser();
-        document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.nome}!`;
-        document.getElementById('homeSection').style.display = 'block';
-    }
+  if (!isUserLoggedIn()) {
+      document.getElementById('homeSection').style.display = 'none';
+      showErrorToast();
+  } else {
+      const user = getUser();
+      if (user) {
+          console.log('user: ', user);
+          console.log('user.dataCriacao: ', user.conta.usuario.nome);
+          document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.conta.usuario.nome}!`;
+          document.getElementById('homeSection').style.display = 'block';
+      } else {
+          console.error('Erro ao carregar os dados do usuário.');
+      }
+  }
 }
 
 // Verifica o login ao carregar a página
 if (document.querySelector('#homeSection')) {
-    checkUserLoggedIn();
+  checkUserLoggedIn();
 }

@@ -30,6 +30,9 @@ async function handleLogin(event) {
 
     if (response.status === 200) {
       const data = await response.json();
+      const conta = data.conta?.[0];
+      console.log('conta: >>>>' + conta);
+      
       if (data.token) {
         saveUser(data); // Salva os dados do usuário no localStorage
         window.location.href = "home.html"; // Redireciona para a página home
