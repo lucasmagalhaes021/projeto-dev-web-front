@@ -1,5 +1,6 @@
 import { saveUser } from "./auth.js";
 
+
 // Função para gerenciar o login
 async function handleLogin(event) {
   event.preventDefault(); // Previne o envio do formulário
@@ -12,15 +13,29 @@ async function handleLogin(event) {
     return;
   }
 
-  try {
-    const response = await fetch(
-      "https://mocki.io/v1/69d4083b-063b-474c-a49a-44313a5ce00e"
-    );
-    const data = await response.json();
+  // Remove máscara do CPF (deixa apenas os números)
+  const cpfClean = cpf.replace(/\D/g, "");
 
-    if (data.sucess) {
-      saveUser(data); // Salva os dados do usuário no localStorage
-      window.location.href = "home.html"; // Redireciona para a página home
+  try {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cpf: cpfClean,
+        password: password,
+      }),
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      if (data.token) {
+        saveUser(data); // Salva os dados do usuário no localStorage
+        window.location.href = "home.html"; // Redireciona para a página home
+      } else {
+        alert("Token inválido. Tente novamente.");
+      }
     } else {
       alert("Login inválido. Tente novamente.");
     }
@@ -29,6 +44,9 @@ async function handleLogin(event) {
     alert("Ocorreu um erro. Tente novamente mais tarde.");
   }
 }
+
+
+
 
 // Associa o evento de login ao formulário
 const loginForm = document.querySelector("#loginSection form");

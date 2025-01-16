@@ -16,5 +16,5 @@ export function clearUser() {
 // Função para verificar se o usuário está logado
 export function isUserLoggedIn() {
     const user = getUser();
-    return user && user.sucess;
+    return user && user.token;
 }
