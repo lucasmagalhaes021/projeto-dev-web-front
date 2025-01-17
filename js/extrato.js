@@ -37,6 +37,7 @@ export async function fetchExtrato(id_conta) {
 }
 
 export function updateExtratoHTML(extrato) {
+    
     const tableBody = document.querySelector('#homeSection tbody'); // Seleciona o corpo da tabela
     tableBody.innerHTML = ''; // Limpa as linhas existentes
 
@@ -44,7 +45,6 @@ export function updateExtratoHTML(extrato) {
         extrato.forEach(transacao => {
             const dataTransacao = new Date(transacao.dataTransacao);
             const dataFormatada = `${dataTransacao.toLocaleDateString('pt-BR')} ${dataTransacao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
-            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${dataFormatada}</td>

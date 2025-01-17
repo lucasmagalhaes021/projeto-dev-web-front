@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Carteira Digital - Exemplo</title>
+    <title>Simplicity Digital Wallet</title>
     <!-- Bootstrap 5 CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -13,27 +13,36 @@
   <body>
     <div id="home-header"></div>
 
-    <!-- Seção Saque -->
-    <section id="saqueSection" class="py-5">
+    <!-- Seção Deposito -->
+    <section id="transferenciaSection" class="py-5 bg-light">
       <div class="container">
-        <h2 class="mb-4">Realizar Saque</h2>
+        <h2 class="mb-4">Realizar Transferência</h2>
         <div class="row">
           <div class="col-md-6">
-            <!-- Dados mockados -->
-            <p>Saldo disponível: <strong>R$ 1.234,56</strong></p>
             <form>
               <div class="mb-3">
-                <label for="saqueValor" class="form-label"
-                  >Valor do Saque</label
+                <label for="depositoValor" class="form-label"
+                  >Valor</label
                 >
                 <input
                   type="number"
                   class="form-control"
-                  id="saqueValor"
-                  placeholder="Ex: 100,00"
+                  id="depositoValor"
+                  placeholder="Ex: 200,00"
                 />
               </div>
-              <button type="submit" class="btn btn-danger">Sacar</button>
+              <div class="mb-3">
+                <label for="depositoContaDestino" class="form-label"
+                  >Número da Conta Destino</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="depositoContaDestino"
+                  placeholder="Ex: 8942235"
+                />
+              </div>
+              <button type="submit" class="btn btn-success">Enviar</button>
             </form>
           </div>
         </div>
@@ -43,5 +52,6 @@
     <!-- Scripts Bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/headers.js"></script>
+    <script type="module" src="../js/saldo.js"></script>
   </body>
 </html>
