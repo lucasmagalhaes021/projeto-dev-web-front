@@ -58,3 +58,30 @@ function sanitizeUserData(rawUserData) {
         }
     };
 }
+
+
+export async function loginAPI(cpf, password) {
+    const cpfClean = cpf.replace(/\D/g, ""); // Remove máscara do CPF
+  
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cpf: cpfClean,
+          password: password,
+        }),
+      });
+  
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error("Login inválido");
+      }
+    } catch (error) {
+      console.error("Erro ao realizar login:", error);
+      throw error;
+    }
+  }

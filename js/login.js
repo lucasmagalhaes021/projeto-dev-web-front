@@ -1,4 +1,4 @@
-import { saveUser } from "./auth.js";
+import { saveUser, loginAPI } from "./auth.js";
 
 
 // Função para gerenciar o login
@@ -13,42 +13,21 @@ async function handleLogin(event) {
     return;
   }
 
-  // Remove máscara do CPF (deixa apenas os números)
-  const cpfClean = cpf.replace(/\D/g, "");
-
   try {
-    const response = await fetch("http://localhost:8080/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cpf: cpfClean,
-        password: password,
-      }),
-    });
+    const data = await loginAPI(cpf, password);
+    const conta = data.conta?.[0];
+    console.log('conta: >>>>' + conta);
 
-    if (response.status === 200) {
-      const data = await response.json();
-      const conta = data.conta?.[0];
-      console.log('conta: >>>>' + conta);
-      
-      if (data.token) {
-        saveUser(data); // Salva os dados do usuário no localStorage
-        window.location.href = "home.html"; // Redireciona para a página home
-      } else {
-        alert("Token inválido. Tente novamente.");
-      }
+    if (data.token) {
+      saveUser(data); // Salva os dados do usuário no localStorage
+      window.location.href = "home.html"; // Redireciona para a página home
     } else {
-      alert("Login inválido. Tente novamente.");
+      alert("Token inválido. Tente novamente.");
     }
   } catch (error) {
-    console.error("Erro ao realizar login:", error);
-    alert("Ocorreu um erro. Tente novamente mais tarde.");
+    alert(error.message || "Ocorreu um erro. Tente novamente mais tarde.");
   }
 }
-
-
 
 
 // Associa o evento de login ao formulário
