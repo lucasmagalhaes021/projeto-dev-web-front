@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carteira Digital</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="home-header"></div>
+
+  <!-- Seção de Cadastro -->
+  <section class=" gradient-custom">
+    <div class="container py-5">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-10">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5" style="text-align: center;">Dados Pessoais</h3>
+              <form>
+
+                <!-- Nome e Sobrenome -->
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="firstName" class="form-control form-control-lg" />
+                      <label class="form-label" for="firstName">Nome</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="lastName" class="form-control form-control-lg" />
+                      <label class="form-label" for="lastName">Sobrenome</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Data de Nascimento e CPF -->
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline datepicker">
+                      <input type="date" class="form-control form-control-lg" id="birthdayDate" />
+                      <label for="birthdayDate" class="form-label">Data de Nascimento</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="cpf" class="form-control form-control-lg" />
+                      <label class="form-label" for="cpf">CPF</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Perfil -->
+                <div class="row">
+                  <div class="col-md-12 mb-4">
+                    <label for="role" class="form-label">Perfil</label>
+                    <select id="role" class="form-select form-control-lg">
+                      <option value="USER">Padrão</option>
+                      <option value="ADMIN">Admin</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Seção de Endereço -->
+                <h5 class="mb-3">Endereço</h5>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="rua" class="form-control form-control-lg" />
+                      <label class="form-label" for="rua">Rua</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="numero" class="form-control form-control-lg" />
+                      <label class="form-label" for="numero">Número</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="complemento" class="form-control form-control-lg" />
+                      <label class="form-label" for="complemento">Complemento</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="bairro" class="form-control form-control-lg" />
+                      <label class="form-label" for="bairro">Bairro</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="cidade" class="form-control form-control-lg" />
+                      <label class="form-label" for="cidade">Cidade</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="uf" class="form-control form-control-lg" />
+                      <label class="form-label" for="uf">UF</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="cep" class="form-control form-control-lg" />
+                      <label class="form-label" for="cep">CEP</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Seção de Contato -->
+                <h5 class="mb-3">Contato</h5>
+                <div class="row">
+                  <div class="col-md-2 mb-4">
+                    <div class="form-outline">
+                      <input type="text" id="ddd" class="form-control form-control-lg" />
+                      <label class="form-label" for="ddd">DDD</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-4">
+                    <div class="form-outline">
+                      <input type="tel" id="telefone" class="form-control form-control-lg" />
+                      <label class="form-label" for="telefone">Telefone</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline">
+                      <input type="email" id="emailAddress" class="form-control form-control-lg" />
+                      <label class="form-label" for="emailAddress">Email</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-2">
+                  <input class="btn btn-primary btn-lg" type="submit" value="Alterar" />
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../js/changeUser.js"></script>
+  <script type="module" src="../js/headers.js"></script>
+</body>
+
+</html>

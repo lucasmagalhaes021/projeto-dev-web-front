@@ -23,7 +23,7 @@ export function isUserLoggedIn() {
 function sanitizeUserData(rawUserData) {
     if (!rawUserData) return null;
 
-    const conta = rawUserData.conta?.[0]; // Pega a primeira conta do array
+    const conta = rawUserData.conta?.[0];
     return {
         token: rawUserData.token || '',
         conta: {
@@ -35,11 +35,24 @@ function sanitizeUserData(rawUserData) {
                 id: conta?.usuario?.id || null,
                 cpf: conta?.usuario?.cpf || '',
                 nome: conta?.usuario?.nome || '',
+                sobrenome: conta?.usuario?.sobrenome || '', // Novo campo
                 senha: conta?.usuario?.senha || '',
                 dataNascimento: conta?.usuario?.dataNascimento || null,
-                endereco: conta?.usuario?.idEndereco || null,
-                contato: conta?.usuario?.idContato || null,
-                role: conta?.usuario?.role || ''
+                endereco: {
+                    rua: conta?.usuario?.idEndereco?.rua || '',
+                    numero: conta?.usuario?.idEndereco?.numero || '',
+                    complemento: conta?.usuario?.idEndereco?.complemento || '',
+                    bairro: conta?.usuario?.idEndereco?.bairro || '',
+                    cidade: conta?.usuario?.idEndereco?.cidade || '',
+                    uf: conta?.usuario?.idEndereco?.uf || '',
+                    cep: conta?.usuario?.idEndereco?.cep || '',
+                },
+                contato: {
+                    ddd: conta?.usuario?.idContato?.ddd || '',
+                    telefone: conta?.usuario?.idContato?.telefone || '',
+                    email: conta?.usuario?.idContato?.email || '',
+                },
+                role: conta?.usuario?.role || 'USER',
             },
             chavePix: conta?.chavePix || null
         }
