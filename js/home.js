@@ -1,4 +1,6 @@
 import { isUserLoggedIn, getUser } from './auth.js';
+import { fetchSaldo, updateSaldoHTML } from './saldo.js';
+import { fetchExtrato, updateExtratoHTML } from './extrato.js';
 
 // Função para mostrar um toast de erro
 function showErrorToast() {
@@ -25,24 +27,31 @@ function showErrorToast() {
 }
 
 // Função para verificar o login
-function checkUserLoggedIn() {
-  if (!isUserLoggedIn()) {
-      document.getElementById('homeSection').style.display = 'none';
-      showErrorToast();
-  } else {
-      const user = getUser();
-      if (user) {
-          console.log('user: ', user);
-          console.log('user.dataCriacao: ', user.conta.usuario.nome);
-          document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.conta.usuario.nome}!`;
-          document.getElementById('homeSection').style.display = 'block';
-      } else {
-          console.error('Erro ao carregar os dados do usuário.');
-      }
-  }
+async function checkUserLoggedIn() {
+    if (!isUserLoggedIn()) {
+        document.getElementById('homeSection').style.display = 'none';
+        showErrorToast();
+    } else {
+        const user = getUser();
+        if (user) {
+            console.log('user: ', user);
+            document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.conta.usuario.nome}!`;
+            document.getElementById('homeSection').style.display = 'block';
+
+            // Busca e atualiza o saldo
+            const saldo = await fetchSaldo(user.conta.numeroConta);
+            console.log('saldo: >>>' + saldo);
+            updateSaldoHTML(saldo);
+
+            const extrato = await fetchExtrato(user.conta.id);
+            updateExtratoHTML(extrato);      
+        } else {
+            console.error('Erro ao carregar os dados do usuário.');
+        }
+    }
 }
 
 // Verifica o login ao carregar a página
 if (document.querySelector('#homeSection')) {
-  checkUserLoggedIn();
+    checkUserLoggedIn();
 }
