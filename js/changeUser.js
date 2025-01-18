@@ -1,5 +1,5 @@
 import { getUser } from './auth.js';
-import { saveUser, loginAPI } from "./auth.js";
+const USER_LOGGED_IN = getUser();
 
 document.addEventListener('DOMContentLoaded', () => {
     const user = getUser();
@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function preencherFormulario(user) {
     // Preencher campos de usuário
-    document.getElementById('firstName').value = user.conta.usuario.nome;
-    document.getElementById('lastName').value = user.conta.usuario.sobrenome;
+    document.getElementById('nome').value = user.conta.usuario.nome;
     document.getElementById('birthdayDate').value = user.conta.usuario.dataNascimento;
     document.getElementById('cpf').value = user.conta.usuario.cpf;
     document.getElementById('role').value = user.conta.usuario.role;
@@ -70,13 +69,13 @@ async function atualizarUsuario() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                "Authorization": `Bearer ${USER_LOGGED_IN.token}`
             },
             body: JSON.stringify({ usuario }),
         });
 
         if (response.ok) {
-            const data = await response.json();
-            //const user = getUser();
+            const data = await response.json();;
             const rawUserData = JSON.parse(localStorage.getItem('userLoggedIn'));
             let rawUserDataUpdated = rawUserData;        
             rawUserDataUpdated.conta[0].usuario.nome = data.nome;

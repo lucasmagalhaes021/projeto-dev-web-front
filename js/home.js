@@ -28,30 +28,42 @@ function showErrorToast() {
 
 // Função para verificar o login
 async function checkUserLoggedIn() {
-    if (!isUserLoggedIn()) {
-        document.getElementById('homeSection').style.display = 'none';
-        showErrorToast();
-    } else {
-        const user = getUser();
-        if (user) {
-            console.log('user: ', user);
-            document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.conta.usuario.nome}!`;
-            document.getElementById('homeSection').style.display = 'block';
+  if (!isUserLoggedIn()) {
+      document.getElementById('homeSection').style.display = 'none';
+      showErrorToast();
+  } else {
+      const user = getUser();
+      if (user) {
+          console.log('user: ', user);
+          document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.conta.usuario.nome}!`;
+          document.getElementById('homeSection').style.display = 'block';
 
-            // Busca e atualiza o saldo
-            const saldo = await fetchSaldo(user.conta.numeroConta);
-            console.log('saldo: >>>' + saldo);
-            updateSaldoHTML(saldo);
+          // Preenche os detalhes da conta
+          preencherDetalhesConta(user);
 
-            const extrato = await fetchExtrato(user.conta.id);
-            updateExtratoHTML(extrato);      
-        } else {
-            console.error('Erro ao carregar os dados do usuário.');
-        }
-    }
+          // Busca e atualiza o saldo
+          const saldo = await fetchSaldo(user.conta.numeroConta);
+          console.log('saldo: >>>' + saldo);
+          updateSaldoHTML(saldo);
+
+          const extrato = await fetchExtrato(user.conta.id);
+          updateExtratoHTML(extrato);      
+      } else {
+          console.error('Erro ao carregar os dados do usuário.');
+      }
+  }
 }
 
 // Verifica o login ao carregar a página
 if (document.querySelector('#homeSection')) {
     checkUserLoggedIn();
+}
+
+
+function preencherDetalhesConta(user) {
+  const conta = user.conta;
+  document.getElementById('cpf').innerText = conta.usuario.cpf;
+  document.getElementById('numeroConta').innerText = conta.numeroConta;
+  document.getElementById('role').innerText = conta.usuario.role;
+  document.getElementById('chavePix').innerText = conta.chavePix.id;
 }

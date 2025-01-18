@@ -17,6 +17,18 @@
   <section id="homeSection" class="py-5" style="display: none;">
     <div class="container">
       <h2 class="mb-4">Bem-vindo(a) à sua conta!</h2>
+      <div class="row" style="padding-right: 0;">
+        <div class="col-md-12 no-padding-right">
+          <div class="card p-3 mb-3">
+            <h5>Detalhes da Conta</h5>
+            <p><strong>CPF:</strong> <span id="cpf"></span></p>
+            <p><strong>Número da Conta:</strong> <span id="numeroConta"></span></p>
+            <p><strong>Perfil:</strong> <span id="role"></span></p>
+            <p><strong>Chave Pix:</strong> <span id="chavePix"></span></p>
+          </div>
+        </div>
+      </div>
+      
       <div class="row">
         <!-- Coluna para o saldo -->
         <div class="col-md-6">
@@ -75,6 +87,12 @@
   <script type="module" src="js/home.js"></script>
   <script type="module" src="js/headers.js"></script>
   <script src="js/common.js"></script>
+  <style>
+    .no-padding-right {
+      padding-right: 0 !important;
+    }
+  </style>
+  
 </body>
 
 </html>

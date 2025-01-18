@@ -1,10 +1,15 @@
 import { isUserLoggedIn, getUser } from "./auth.js";
+const USER_LOGGED_IN = getUser();
 export async function fetchSaldo(id_conta) {
+
   try {
     const response = await fetch(
       `http://localhost:8080/conta/${id_conta}/saldo`,
       {
         method: "GET",
+        headers: {
+          "Authorization": `Bearer ${USER_LOGGED_IN.token}`
+        }
       }
     );
 
@@ -34,6 +39,7 @@ async function insertSaldo(valor, num_conta) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${USER_LOGGED_IN.token}`
       },
       body: JSON.stringify({
         valor,
@@ -62,6 +68,7 @@ async function pagarBoletoSaldoConta(num_boleto, num_conta) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${USER_LOGGED_IN.token}`
         },
         body: JSON.stringify({
           boleto: num_boleto,
@@ -98,8 +105,6 @@ if (depositoForm) {
       alert("Por favor, insira um valor válido.");
       return;
     }
-
-    // Substitua este número pela lógica para capturar o número da conta, se necessário
 
     const user = getUser();
     const numeroConta = user.conta.numeroConta;

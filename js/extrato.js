@@ -1,7 +1,12 @@
+import {getUser } from "./auth.js";
+const USER_LOGGED_IN = getUser();
 export async function fetchExtrato(id_conta) {
     try {
         const response = await fetch(`http://localhost:8080/transacao/extrato/${id_conta}`, {
             method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${USER_LOGGED_IN.token}`
+              }
         });
 
         if (!response.ok) {
