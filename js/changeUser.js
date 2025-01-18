@@ -44,7 +44,7 @@ async function atualizarUsuario() {
     const usuario = {
         id: 1, // Esse valor pode ser dinâmico conforme necessário
         cpf: document.getElementById('cpf').value,
-        nome: document.getElementById('firstName').value,
+        nome: document.getElementById('nome').value,
         dataNascimento: document.getElementById('birthdayDate').value || null,
         idEndereco: {
             id: 1, // Ajustar conforme necessário
@@ -78,12 +78,28 @@ async function atualizarUsuario() {
             const data = await response.json();
             //const user = getUser();
             const rawUserData = JSON.parse(localStorage.getItem('userLoggedIn'));
-            let rawUserDataUpdated = rawUserData;
-            //Adicionar todos os campos possiveis para setar localmente
+            let rawUserDataUpdated = rawUserData;        
             rawUserDataUpdated.conta[0].usuario.nome = data.nome;
+            rawUserDataUpdated.conta[0].usuario.cpf = data.cpf;
+            rawUserDataUpdated.conta[0].usuario.dataNascimento = data.dataNascimento;
+
+            // Endereço
+            rawUserDataUpdated.conta[0].usuario.idEndereco.rua = data.idEndereco.rua;
+            rawUserDataUpdated.conta[0].usuario.idEndereco.numero = data.idEndereco.numero;
+            rawUserDataUpdated.conta[0].usuario.idEndereco.complemento = data.idEndereco.complemento;
+            rawUserDataUpdated.conta[0].usuario.idEndereco.bairro = data.idEndereco.bairro;
+            rawUserDataUpdated.conta[0].usuario.idEndereco.cidade = data.idEndereco.cidade;
+            rawUserDataUpdated.conta[0].usuario.idEndereco.uf = data.idEndereco.uf;
+            rawUserDataUpdated.conta[0].usuario.idEndereco.cep = data.idEndereco.cep;
+
+            // Contato
+            rawUserDataUpdated.conta[0].usuario.idContato.ddd = data.idContato.ddd;
+            rawUserDataUpdated.conta[0].usuario.idContato.telefone = data.idContato.telefone;
+            rawUserDataUpdated.conta[0].usuario.idContato.email = data.idContato.email;
+
             localStorage.setItem('userLoggedIn', JSON.stringify(rawUserDataUpdated));
             alert('Dados atualizados com sucesso!');
-            
+
         } else {
             const error = await response.json();
             alert(`Erro ao atualizar os dados: ${error.message}`);

@@ -7,7 +7,7 @@ const form = document.querySelector("form");
 // Função para obter os dados do formulário
 const getFormData = () => {
   const cpf = document.getElementById("cpf").value;
-  const nome = document.getElementById("firstName").value + " " + document.getElementById("lastName").value;
+  const nome = document.getElementById("nome").value;
   const dataNascimento = document.getElementById("birthdayDate").value;
   const senha = document.getElementById("password").value;
   const rua = document.getElementById("rua").value;
