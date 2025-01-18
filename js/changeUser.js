@@ -42,12 +42,12 @@ function preencherFormulario(user) {
 async function atualizarUsuario() {
     // Capturar dados do formulário
     const usuario = {
-        id: 12, // Esse valor pode ser dinâmico conforme necessário
+        id: 1, // Esse valor pode ser dinâmico conforme necessário
         cpf: document.getElementById('cpf').value,
         nome: document.getElementById('firstName').value,
         dataNascimento: document.getElementById('birthdayDate').value || null,
         idEndereco: {
-            id: 12, // Ajustar conforme necessário
+            id: 1, // Ajustar conforme necessário
             rua: document.getElementById('rua').value,
             numero: document.getElementById('numero').value,
             complemento: document.getElementById('complemento').value,
@@ -57,7 +57,7 @@ async function atualizarUsuario() {
             cep: document.getElementById('cep').value,
         },
         idContato: {
-            id: 12, // Ajustar conforme necessário
+            id: 1, // Ajustar conforme necessário
             ddd: document.getElementById('ddd').value,
             telefone: document.getElementById('telefone').value,
             email: document.getElementById('emailAddress').value,
@@ -77,11 +77,11 @@ async function atualizarUsuario() {
         if (response.ok) {
             const data = await response.json();
             //const user = getUser();
-            var rawUserData = JSON.parse(localStorage.getItem('userLoggedIn'));
-            rawUserData.conta?.[0].usuario.nome = data.nome;
-            localStorage.setItem('userLoggedIn', JSON.stringify(rawUserData));
-            //console.log('Nome Storage: >> ' + rawUserData.conta?.[0].usuario.nome);
-            //console.log('nome Atualizado: >> ' + data.nome);
+            const rawUserData = JSON.parse(localStorage.getItem('userLoggedIn'));
+            let rawUserDataUpdated = rawUserData;
+            //Adicionar todos os campos possiveis para setar localmente
+            rawUserDataUpdated.conta[0].usuario.nome = data.nome;
+            localStorage.setItem('userLoggedIn', JSON.stringify(rawUserDataUpdated));
             alert('Dados atualizados com sucesso!');
             
         } else {
