@@ -59,6 +59,35 @@ async function insertSaldo(valor, num_conta) {
     return null;
   }
 }
+async function insertSaldoPix(valor, chave_pix) {
+  try {
+    const response = await fetch("http://localhost:8080/pix/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${USER_LOGGED_IN.token}`
+      },
+      body: JSON.stringify({
+        valor : valor,
+        chavePix: chave_pix,
+        numeroContaOrigem: USER_LOGGED_IN.conta.numeroConta
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao realizar PIX: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log("Resultado da API:", data);
+    return data;
+  } catch (error) {
+    console.error("Erro ao realizar PIX:", error);
+    return null;
+  }
+}
+
+
 
 async function pagarBoletoSaldoConta(num_boleto, num_conta) {
   try {
@@ -194,6 +223,67 @@ if (transferenciaForm) {
         } else {
           alert("Erro ao realizar a transferência. Tente novamente.");
         }
+      } else {
+        alert("Erro ao realizar a transferência. Tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro ao processar o formulário:", error);
+      alert("Ocorreu um erro. Verifique o console para mais detalhes.");
+    }
+  });
+}
+
+
+const pixForm = document.querySelector("#pixSection form");
+if (pixForm) {
+  console.log("Entrou no pixForm");
+  pixForm.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Previne a atualização da página
+
+    // Captura os valores do formulário
+    const chavePixInput = document.querySelector("#chavePix").value;
+    console.log('chavePixInput: ' + chavePixInput)
+    console.log('USER_LOGGED_IN chavePixInput: ' + USER_LOGGED_IN.conta.chavePix.id)
+    if ( chavePixInput === USER_LOGGED_IN.conta.chavePix.id) {
+      console.error("Não é possivel fazer pix para você mesmo");
+      alert("Não é possível realizar um PIX para você mesmo. Por favor, verifique os dados do destinatário e tente novamente.");
+    return;
+    }
+    const valorInput = document.querySelector("#depositoValor");
+    const valor = parseFloat(valorInput.value);
+    console.log("chavePixInput: " + chavePixInput);
+
+    if (isNaN(valor) || valor <= 0) {
+      alert("Por favor, insira um valor válido.");
+      return;
+    }
+
+    // Substitua este número pela lógica para capturar o número da conta, se necessário
+
+    const user = getUser();
+    const chavePix = chavePixInput;
+
+    // Chama a função insertSaldo
+    try {
+      const resultPix = await insertSaldoPix(valor, chavePix);
+
+      if (resultPix && resultPix.response) {
+          // Exibe o código do boleto na tela
+          const container = document.querySelector(
+            "#pixSection .row"
+          );
+          let pixSucessElement =
+            document.querySelector("#mensagemSucesso");
+
+          if (!pixSucessElement) {
+            // Cria o elemento para exibir a mensagem, se não existir
+            pixSucessElement = document.createElement("div");
+            pixSucessElement.id = "mensagemSucesso";
+            pixSucessElement.className = "alert alert-success mt-3";
+            container.appendChild(pixSucessElement);
+          }
+
+          pixSucessElement.innerHTML = `<strong>${resultPix.response}</strong><br>`;
       } else {
         alert("Erro ao realizar a transferência. Tente novamente.");
       }

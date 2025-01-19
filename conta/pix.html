@@ -13,34 +13,46 @@
   <body>
     <div id="home-header"></div>
 
-    <!-- Seção CPF -->
+    <!-- Seção Deposito -->
     <section id="pixSection" class="py-5 bg-light">
       <div class="container">
-        <h2 class="mb-4">Rastrear Usuário</h2>
+        <h2 class="mb-4">Realizar PIX</h2>
         <div class="row">
           <div class="col-md-6">
             <form>
-              <div class="d-flex align-items-end">
-                <div class="me-2 flex-grow-1">
-                  <label for="cpfValue" class="form-label">CPF</label>
-                  <input type="text" class="form-control" id="cpfValue" placeholder="Ex: 16239503762" />
-                </div>
-                <button type="submit" class="btn btn-success">Rastrear</button>
+              <div class="mb-3">
+                <label for="depositoValor" class="form-label"
+                  >Valor</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="depositoValor"
+                  placeholder="Ex: 200,00"
+                />
               </div>
+              <div class="mb-3">
+                <label for="chavePix" class="form-label"
+                  >Chave PIX</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="chavePix"
+                  placeholder="Ex: 8942235"
+                />
+              </div>
+              <button type="submit" class="btn btn-success">Enviar</button>
             </form>
           </div>
         </div>
-        <!-- Adicione esta div para os resultados -->
-        <div id="results"></div>
       </div>
     </section>
-    
-    
 
     <!-- Scripts Bootstrap 5 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/headers.js"></script>
+    <script type="module" src="../js/saldo.js"></script>
     <script src="../js/common.js"></script>
-    <script type="module" src="../js/admin.js"></script>
   </body>
 </html>

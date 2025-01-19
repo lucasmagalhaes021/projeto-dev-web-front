@@ -10,9 +10,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="../home.html"
-          >Simplicity Digital Wallet</a
-        >
+        <a class="navbar-brand" href="../home.html">Simplicity Digital Wallet</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -27,27 +25,32 @@
         <div class="collapse navbar-collapse" id="navbarHome">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="/conta/cadastroChange.html"
-                >Meus Dados</a
+              <a class="nav-link" href="/conta/cadastroChange.html">Meus Dados</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="transferDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
+                Transferência
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="transferDropdown">
+                <li><a class="dropdown-item" href="/conta/transferencia.html">Via Conta</a></li>
+                <li><a class="dropdown-item" href="/conta/pix.html">Via PIX</a></li>
+              </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/conta/saque.html">Transferência</a>
+              <a class="nav-link" href="/conta/deposito.html">Adicionar Saldo</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/conta/deposito.html"
-                >Adicionar Saldo</a
-              >
+              <a class="nav-link" href="/usuario/admin.html">Área Admin</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/usuario/admin.html"
-                >Área Admin</a
-              >
-            </li>
-            <li class="nav-item">
-              <button class="nav-link text-danger" onclick="logout()">
-                Sair
-              </button>
+              <button class="nav-link text-danger" onclick="logout()">Sair</button>
             </li>
           </ul>
         </div>

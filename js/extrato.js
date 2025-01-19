@@ -1,6 +1,6 @@
 import {getUser } from "./auth.js";
 const USER_LOGGED_IN = getUser();
-export async function fetchExtrato(id_conta) {
+export async function fetchExtrato(id_conta, num_conta) {
     try {
         const response = await fetch(`http://localhost:8080/transacao/extrato/${id_conta}`, {
             method: 'GET',
@@ -18,12 +18,11 @@ export async function fetchExtrato(id_conta) {
         // Adicionando lógica para alteração dos nodes
         data = data.map(transacao => {
             if (
-                transacao.tipoTransacao === 'DEPOSITO' && 
-                transacao.idContaOrigem === id_conta && 
-                transacao.idContaDestino !== id_conta &&
-                transacao.idContaDestino !== null
+                (transacao.tipoTransacao === 'DEPOSITO'  || transacao.tipoTransacao === 'PIX')&& 
+                transacao.contaOrigem === num_conta && 
+                transacao.contaDestino !== num_conta &&
+                transacao.contaDestino !== null
             ) {
-                transacao.tipoTransacao = 'TRANSFERENCIA';
                 transacao.valor = -Math.abs(transacao.valor); // Garante que o valor seja negativo
             }
 
@@ -42,11 +41,13 @@ export async function fetchExtrato(id_conta) {
 }
 
 export function updateExtratoHTML(extrato) {
-    
     const tableBody = document.querySelector('#homeSection tbody'); // Seleciona o corpo da tabela
     tableBody.innerHTML = ''; // Limpa as linhas existentes
 
     if (extrato && extrato.length > 0) {
+        // Ordena o extrato pela dataTransacao (mais recente primeiro)
+        extrato.sort((a, b) => new Date(b.dataTransacao) - new Date(a.dataTransacao));
+
         extrato.forEach(transacao => {
             const dataTransacao = new Date(transacao.dataTransacao);
             const dataFormatada = `${dataTransacao.toLocaleDateString('pt-BR')} ${dataTransacao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
@@ -57,8 +58,8 @@ export function updateExtratoHTML(extrato) {
                 <td class="${transacao.valor < 0 ? 'text-danger' : 'text-success'}">
                     ${transacao.valor < 0 ? '- ' : ''}R$ ${Math.abs(transacao.valor).toFixed(2)}
                 </td>
-                <td>${transacao.idContaOrigem || '-'}</td>
-                <td>${transacao.idContaDestino || '-'}</td>
+                <td>${transacao.contaOrigem || '-'}</td>
+                <td>${transacao.contaDestino || '-'}</td>
             `;
             tableBody.appendChild(row);
         });
@@ -70,5 +71,6 @@ export function updateExtratoHTML(extrato) {
         tableBody.appendChild(row);
     }
 }
+
 
 

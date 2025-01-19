@@ -46,7 +46,7 @@ async function checkUserLoggedIn() {
           console.log('saldo: >>>' + saldo);
           updateSaldoHTML(saldo);
 
-          const extrato = await fetchExtrato(user.conta.id);
+          const extrato = await fetchExtrato(user.conta.id, user.conta.numeroConta);
           updateExtratoHTML(extrato);      
       } else {
           console.error('Erro ao carregar os dados do usuário.');
