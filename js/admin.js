@@ -1,5 +1,5 @@
 import { getUser } from "./auth.js";
-import { fetchExtrato} from './extrato.js';
+import { fetchExtrato } from "./extrato.js";
 const USER_LOGGED_IN = getUser();
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -14,13 +14,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/usuario/usuarioByCpf/${cpfValue}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${USER_LOGGED_IN.token}`
+            const response = await fetch(
+                `http://localhost:8080/usuario/usuarioByCpf/${cpfValue}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${USER_LOGGED_IN.token}`,
+                    },
                 }
-            });
+            );
 
             if (!response.ok) {
                 throw new Error("Erro ao buscar dados. Verifique o CPF.");
@@ -29,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
             displayUserData(data);
             const extrato = await fetchExtrato(7, 51716829);
-            console.log('extrato: >>> ' + extrato);
-            updateExtratoHTML(extrato);   
+            console.log("extrato: >>> " + extrato);
+            updateExtratoHTML(extrato);
         } catch (error) {
             console.error("Erro:", error);
             alert("Falha ao buscar informações do usuário.");
@@ -43,7 +46,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const userHTML = `
             <div class="col-md-12">
-                <h3>Dados do Usuário</h3>
+                <div class="d-flex p-2">
+                    <h3 class="me-3">Dados do Usuário</h3>
+                    <button id = "liveToastBtn" class="btn btn-primary" onclick="promoteAdmin(${data.cpf})">Promover a Admin</button>
+                </div>
+                <!-- Toast de sucesso -->
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                <div id="liveToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Usuário promovido com sucesso!
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tbody>
@@ -51,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <tr><th>CPF</th><td>${data.cpf}</td></tr>
                             <tr><th>Nome</th><td>${data.nome}</td></tr>
                             <tr><th>Data de Nascimento</th><td>${data.dataNascimento}</td></tr>
-                            <tr><th>Função</th><td>${data.role}</td></tr>
+                            <tr><th>Perfil</th><td>${data.role}</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -83,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         container.innerHTML = userHTML;
-        
+
         // Localiza a seção de resultados e exibe os dados abaixo do botão
         const resultsSection = document.getElementById("results");
         resultsSection.innerHTML = ""; // Limpa resultados anteriores
@@ -93,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateExtratoHTML(extrato) {
         const container = document.createElement("div");
         container.className = "row mt-4";
-    
+
         let extratoHTML = `
             <div class="col-md-12">
                 <h3>Extrato de Transações</h3>
@@ -110,22 +127,32 @@ document.addEventListener("DOMContentLoaded", function () {
                         </thead>
                         <tbody>
         `;
-    
+
         if (extrato && extrato.length > 0) {
-            extrato.sort((a, b) => new Date(b.dataTransacao) - new Date(a.dataTransacao));
-    
-            extrato.forEach(transacao => {
+            extrato.sort(
+                (a, b) => new Date(b.dataTransacao) - new Date(a.dataTransacao)
+            );
+
+            extrato.forEach((transacao) => {
                 const dataTransacao = new Date(transacao.dataTransacao);
-                const dataFormatada = `${dataTransacao.toLocaleDateString('pt-BR')} ${dataTransacao.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+                const dataFormatada = `${dataTransacao.toLocaleDateString(
+                    "pt-BR"
+                )} ${dataTransacao.toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                })}`;
                 extratoHTML += `
                     <tr>
                         <td>${dataFormatada}</td>
                         <td>${transacao.tipoTransacao}</td>
-                        <td class="${transacao.valor < 0 ? 'text-danger' : 'text-success'}">
-                            ${transacao.valor < 0 ? '- ' : ''}R$ ${Math.abs(transacao.valor).toFixed(2)}
+                        <td class="${transacao.valor < 0 ? "text-danger" : "text-success"
+                    }">
+                            ${transacao.valor < 0 ? "- " : ""}R$ ${Math.abs(
+                        transacao.valor
+                    ).toFixed(2)}
                         </td>
-                        <td>${transacao.contaOrigem || '-'}</td>
-                        <td>${transacao.contaDestino || '-'}</td>
+                        <td>${transacao.contaOrigem || "-"}</td>
+                        <td>${transacao.contaDestino || "-"}</td>
                     </tr>
                 `;
             });
@@ -136,20 +163,47 @@ document.addEventListener("DOMContentLoaded", function () {
                 </tr>
             `;
         }
-    
+
         extratoHTML += `
                         </tbody>
                     </table>
                 </div>
             </div>
         `;
-    
+
         container.innerHTML = extratoHTML;
-    
+
         // Insere a tabela de extrato abaixo da seção de dados do usuário
         const resultsSection = document.getElementById("results");
         resultsSection.appendChild(container);
     }
-    
-
 });
+async function promoteAdmin(cpfToPromote) {
+    try {
+        const response = await fetch(
+            `http://localhost:8080/usuario/mudarRole/${cpfToPromote}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${USER_LOGGED_IN.token}`,
+                },
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Erro ao promover Usuario");
+        }
+
+        const data = await response.json();
+
+        // Exibir toast de sucesso
+        const toastEl = document.getElementById("liveToast");
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    } catch (error) {
+        console.error("Erro:", error);
+        alert("Falha ao promover úsuario");
+    }
+}
+window.promoteAdmin = promoteAdmin;
