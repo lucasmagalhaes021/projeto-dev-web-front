@@ -144,27 +144,17 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         if (extrato && extrato.length > 0) {
-            extrato.sort(
-                (a, b) => new Date(b.dataTransacao) - new Date(a.dataTransacao)
-            );
+            extrato.sort((a, b) => new Date(b.dataTransacao) - new Date(a.dataTransacao));
 
             extrato.forEach((transacao) => {
                 const dataTransacao = new Date(transacao.dataTransacao);
-                const dataFormatada = `${dataTransacao.toLocaleDateString(
-                    "pt-BR"
-                )} ${dataTransacao.toLocaleTimeString("pt-BR", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                })}`;
+                const dataFormatada = `${dataTransacao.toLocaleDateString("pt-BR")} ${dataTransacao.toLocaleTimeString("pt-BR", {hour: "2-digit", minute: "2-digit"})}`;
                 extratoHTML += `
                     <tr>
                         <td>${dataFormatada}</td>
                         <td>${transacao.tipoTransacao}</td>
-                        <td class="${transacao.valor < 0 ? "text-danger" : "text-success"
-                    }">
-                            ${transacao.valor < 0 ? "- " : ""}R$ ${Math.abs(
-                        transacao.valor
-                    ).toFixed(2)}
+                        <td class="${transacao.valor < 0 ? "text-danger" : "text-success"}">
+                            ${transacao.valor < 0 ? "- " : ""}R$ ${Math.abs(transacao.valor).toFixed(2)}
                         </td>
                         <td>${transacao.contaOrigem || "-"}</td>
                         <td>${transacao.contaDestino || "-"}</td>
@@ -183,14 +173,42 @@ document.addEventListener("DOMContentLoaded", function () {
                         </tbody>
                     </table>
                 </div>
+                <button id="downloadPdfBtn" class="btn btn-success mt-3">Baixar Extrato em PDF</button>
             </div>
         `;
 
         container.innerHTML = extratoHTML;
+        document.getElementById("results").appendChild(container);
 
-        // Insere a tabela de extrato abaixo da seção de dados do usuário
-        const resultsSection = document.getElementById("results");
-        resultsSection.appendChild(container);
+        document.getElementById("downloadPdfBtn").addEventListener("click", function() {
+            if (typeof window.jspdf === 'undefined') {
+                alert('Erro: jsPDF não foi carregado corretamente.');
+                return;
+            }
+            const doc = new window.jspdf.jsPDF();
+            doc.setFontSize(18);
+            doc.text("Extrato de Transações", 10, 10);
+            let y = 30;
+            const tableHeaders = ["Data", "Tipo", "Valor", "Conta Origem", "Conta Destino"];
+            doc.setFontSize(12);
+            doc.text(tableHeaders.join(" | "), 10, y);
+
+            extrato.forEach((transacao) => {
+                y += 10;
+                const dataTransacao = new Date(transacao.dataTransacao);
+                const dataFormatada = `${dataTransacao.toLocaleDateString("pt-BR")} ${dataTransacao.toLocaleTimeString("pt-BR", {hour: "2-digit", minute: "2-digit"})}`;
+                const row = [
+                    dataFormatada,
+                    transacao.tipoTransacao,
+                    `R$ ${transacao.valor.toFixed(2)}`,
+                    transacao.contaOrigem || "-",
+                    transacao.contaDestino || "-"
+                ];
+                doc.text(row.join(" | "), 10, y);
+            });
+
+            doc.save("extrato.pdf");
+        });
     }
 
     function formatDateToBR(dateString) {
