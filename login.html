@@ -14,19 +14,30 @@
         content: " *";
         color: red;
         font-weight: bold;
+      }
 
+      .center-box {
+        display: flex;
+        justify-content: center;  /* Center horizontally */
+        align-items: center;      /* Center vertically */
+        height: 100vh;            /* Full viewport height */
+      }
+
+      body {
+        background: linear-gradient(to right, #06457d, #248fef);
+        font-family:Arial, Helvetica, sans-serif
       }
     </style>
   </head>
   <body class="bg-light">
-    <div id="login-header"></div>
 
     <!-- Seção de Login -->
-    <section id="loginSection" class="py-5">
-      <div class="container rounded-3 col-5" style="background-color: #acd1eb;">
+    <section id="loginSection" class="center-box" style="opacity: 100%;">
+      <div class="container rounded-3 col-5" style="background-color: white">
         <div class="row justify-content-center">
           <div class="col-md-6 m-4">
-            <h2 class="mb-4 text-center">Login</h2>
+            <h2 class="mb-4 text-center">Simplicity Digital Wallet</h2>
+            <h3 class="mb-4 text-center">Login</h3>
             <form class="needs-validation" novalidate>
               <div class="mb-3 position-relative">
                 <label for="loginCPF" class="form-label required-label">CPF</label>
@@ -54,6 +65,9 @@
                 <div class="invalid-feedback">
                   Por favor, insira sua senha.
                 </div>
+              </div>
+              <div>
+                <p class="text-center">Não é membro? <a href="/usuario/cadastro.html">Cadastre-se</a></p>
               </div>
               <div class="text-center">
                 <button type="submit" class="btn btn-primary">Entrar</button>
