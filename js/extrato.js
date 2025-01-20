@@ -26,6 +26,14 @@ export async function fetchExtrato(id_conta, num_conta) {
                 transacao.valor = -Math.abs(transacao.valor); // Garante que o valor seja negativo
             }
 
+            if (transacao.tipoTransacao === 'DEPOSITO' && 
+                transacao.contaOrigem === num_conta && 
+                transacao.contaDestino === null 
+            ) {
+                transacao.contaOrigem = 'Fonte Externa';
+                transacao.contaDestino = num_conta;
+            }
+
             if (transacao.tipoTransacao === 'SAQUE'){
                 transacao.valor = -Math.abs(transacao.valor);
             }
