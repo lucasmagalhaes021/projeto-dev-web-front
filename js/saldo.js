@@ -29,9 +29,17 @@ export async function fetchSaldo(id_conta) {
 export function updateSaldoHTML(saldo) {
   if (saldo !== null) {
     const saldoElement = document.querySelector("#homeSection .text-success");
-    saldoElement.innerText = `R$ ${saldo.toFixed(2).replace(".", ",")}`;
+    
+    // Formata o saldo para adicionar ponto como separador de milhar e vírgula para decimais
+    const saldoFormatado = saldo
+      .toFixed(2) // Garante duas casas decimais
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".") // Adiciona ponto como separador de milhar
+      .replace(".", ","); // Substitui o primeiro ponto pela vírgula decimal
+    
+    saldoElement.innerText = `R$ ${saldoFormatado}`;
   }
 }
+
 
 async function insertSaldo(valor, num_conta) {
   try {
