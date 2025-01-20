@@ -20,7 +20,7 @@ const getFormData = () => {
   const ddd = document.getElementById("ddd").value;
   const telefone = document.getElementById("telefone").value;
   const email = document.getElementById("emailAddress").value;
-  const role = document.getElementById("role").value;
+  const role = "USER"
 
   return {
     cpf,

@@ -37,6 +37,7 @@ async function checkUserLoggedIn() {
           console.log('user: ', user);
           document.querySelector('#homeSection h2').innerText = `Bem-vindo(a), ${user.conta.usuario.nome}!`;
           document.getElementById('homeSection').style.display = 'block';
+          //adminSection.style.display = "none";
 
           // Preenche os detalhes da conta
           preencherDetalhesConta(user);

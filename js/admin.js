@@ -3,6 +3,10 @@ import { fetchExtrato } from "./extrato.js";
 const USER_LOGGED_IN = getUser();
 
 document.addEventListener("DOMContentLoaded", function () {
+    //Redireciona se o usuario não tiver acesso
+    if (USER_LOGGED_IN.conta.usuario.role === "USER") {
+        window.location.href = "../home.html";
+    }
     const form = document.querySelector("form");
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
