@@ -133,7 +133,35 @@
                     </div>
                   </div>
                 </div>
+                <!-- Checkbox de Termos de Uso -->
+                <div class="form-check mt-4">
+                  <input class="form-check-input" type="checkbox" id="termosCheckbox" required />
+                  <label class="form-check-label" for="termosCheckbox">
+                    Eu aceito os <a href="#" data-bs-toggle="modal" data-bs-target="#termosModal">Termos de Uso</a>
+                  </label>
+                </div>
 
+                <!-- Modal de Termos de Uso -->
+                <div class="modal fade" id="termosModal" tabindex="-1" aria-labelledby="termosModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="termosModalLabel">Termos de Uso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Ao aceitar os Termos de Uso, o usuário declara estar ciente e concorda que os administradores da plataforma poderão acessar e visualizar suas <strong>informações pessoais e transações financeiras</strong>, como extratos e outras movimentações, sempre que necessário para a correta operação do serviço, aprimoramento da experiência do usuário e garantia da segurança da plataforma.</p>
+                        <p>Além disso, o usuário autoriza expressamente que seus <strong>dados pessoais e históricos de transações possam ser compartilhados com as autoridades competentes</strong>, caso haja solicitação formal, em conformidade com a legislação vigente.</p>
+                        <p>A plataforma se compromete a utilizar tais dados de forma <strong>responsável e segura</strong>, conforme descrito na Política de Privacidade, garantindo a confidencialidade e proteção das informações fornecidas pelo usuário.</p>                          
+                          <p>Caso o usuário não concorde com os termos acima, deverá se abster de utilizar a plataforma.</p>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="mt-4 pt-2">
                   <input class="btn btn-primary btn-lg" type="submit" value="Cadastrar" />
                 </div>
