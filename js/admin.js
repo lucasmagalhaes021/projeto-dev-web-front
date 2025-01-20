@@ -35,8 +35,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const data = await response.json();
             displayUserData(data);
-            const extrato = await fetchExtrato(7, 51716829);
-            console.log("extrato: >>> " + extrato);
+            const responseConta = await fetch(
+                `http://localhost:8080/conta/contaByCpf/${cpfValue}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${USER_LOGGED_IN.token}`,
+                    },
+                }
+            );
+            const dataConta = await responseConta.json();
+
+            const extrato = await fetchExtrato(dataConta[0].id, dataConta[0].numeroConta);
             updateExtratoHTML(extrato);
         } catch (error) {
             console.error("Erro:", error);
@@ -71,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <tr><th>ID</th><td>${data.id}</td></tr>
                             <tr><th>CPF</th><td>${data.cpf}</td></tr>
                             <tr><th>Nome</th><td>${data.nome}</td></tr>
-                            <tr><th>Data de Nascimento</th><td>${data.dataNascimento}</td></tr>
+                            <tr><th>Data de Nascimento</th><td>${formatDateToBR(data.dataNascimento)}</td></tr>
                             <tr><th>Perfil</th><td>${data.role}</td></tr>
                         </tbody>
                     </table>
@@ -181,6 +192,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const resultsSection = document.getElementById("results");
         resultsSection.appendChild(container);
     }
+
+    function formatDateToBR(dateString) {
+        const date = new Date(dateString);
+        if (isNaN(date)) {
+            return "Data inválida";
+        }
+        return date.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
+    
 });
 async function promoteAdmin(cpfToPromote) {
     try {
